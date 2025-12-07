@@ -98,7 +98,7 @@ export function FacebookCard({ content }: FacebookCardProps) {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <div className="bg-gray-100 rounded-2xl px-3 py-2 inline-block">
+              <div className="bg-gray-100 rounded-md px-3 py-2 inline-block">
                 <div className="font-bold text-[13px] text-[#050505] cursor-pointer hover:underline">
                   {comment.username}
                 </div>
@@ -126,7 +126,7 @@ export function FacebookCard({ content }: FacebookCardProps) {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
-                        <div className="bg-gray-100 rounded-2xl px-3 py-1.5 inline-block">
+                        <div className="bg-gray-100 rounded-md px-3 py-1.5 inline-block">
                           <div className="font-bold text-[12px] text-[#050505] cursor-pointer hover:underline">
                             {reply.username}
                           </div>

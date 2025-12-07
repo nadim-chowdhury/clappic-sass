@@ -84,7 +84,7 @@ export function TemplateSelector({
               onClick={() => setSelectedTemplate(template.id)}
               className={cn(
                 "relative group flex flex-col items-center justify-center gap-3 p-4 h-24 rounded-xl border-2 transition-all duration-200",
-                "hover:scale-[1.02] hover:shadow-md",
+                "hover:shadow-md",
                 isSelected
                   ? cn("ring-2 ring-offset-2", template.activeColor)
                   : "hover:border-primary/50",

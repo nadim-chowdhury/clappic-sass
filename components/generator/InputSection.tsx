@@ -43,7 +43,7 @@ export function InputSection({
       <Button
         onClick={onRender}
         disabled={isLoading || !jsonInput.trim()}
-        className="w-full h-12 text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl hover:scale-[1.02]"
+        className="w-full h-12 text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
       >
         {isLoading ? (
           <>

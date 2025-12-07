@@ -136,7 +136,7 @@ export function TwitterCard({ content }: TwitterCardProps) {
                           {reply.username}
                         </span>
                         <span className="text-gray-500 text-xs truncate">
-                          @{reply.handle}
+                          {reply.handle}
                         </span>
                         <span className="text-gray-500 text-xs">
                           · {reply.time || "30m"}

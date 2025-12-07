@@ -88,10 +88,7 @@ export function PreviewSection({
       />
 
       <div className="flex justify-center p-4 md:p-8 bg-muted/30 rounded-xl border border-border overflow-hidden">
-        <div
-          ref={cardRef}
-          className="transform transition-all duration-300 hover:scale-[1.01]"
-        >
+        <div ref={cardRef} className="transform transition-all duration-300">
           {renderTemplate()}
         </div>
       </div>

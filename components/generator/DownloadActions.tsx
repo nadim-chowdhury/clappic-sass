@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Download, Share2 } from "lucide-react";
+import { Download, Share2, Loader2 } from "lucide-react";
 import { toPng, toBlob } from "html-to-image";
 import { toast } from "sonner";
+import { useState } from "react";
 
 interface DownloadActionsProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
@@ -12,6 +13,9 @@ export function DownloadActions({
   targetRef,
   fileName = "viral-card",
 }: DownloadActionsProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+
   const getTimestampedFilename = () => {
     const now = new Date();
     const date = now.toISOString().split("T")[0];
@@ -21,6 +25,7 @@ export function DownloadActions({
 
   const handleDownload = async () => {
     if (!targetRef.current) return;
+    setIsDownloading(true);
 
     try {
       // Using html-to-image which supports modern CSS (lab/oklch) better
@@ -39,11 +44,14 @@ export function DownloadActions({
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download image.");
+    } finally {
+      setIsDownloading(false);
     }
   };
 
   const handleShare = async () => {
     if (!targetRef.current) return;
+    setIsSharing(true);
 
     try {
       const blob = await toBlob(targetRef.current, {
@@ -74,6 +82,8 @@ export function DownloadActions({
     } catch (error) {
       console.error("Share failed:", error);
       toast.error("Failed to share image.");
+    } finally {
+      setIsSharing(false);
     }
   };
 
@@ -81,20 +91,30 @@ export function DownloadActions({
     <div className="flex gap-4 mt-6">
       <Button
         onClick={handleDownload}
+        disabled={isDownloading || isSharing}
         className="w-full sm:w-auto gap-2"
         size="lg"
       >
-        <Download className="w-4 h-4" />
-        Download Image
+        {isDownloading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Download className="w-4 h-4" />
+        )}
+        {isDownloading ? "Downloading..." : "Download Image"}
       </Button>
       <Button
         variant="outline"
         onClick={handleShare}
+        disabled={isDownloading || isSharing}
         className="w-full sm:w-auto gap-2"
         size="lg"
       >
-        <Share2 className="w-4 h-4" />
-        Share / Copy
+        {isSharing ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Share2 className="w-4 h-4" />
+        )}
+        {isSharing ? "Sharing..." : "Share / Copy"}
       </Button>
     </div>
   );

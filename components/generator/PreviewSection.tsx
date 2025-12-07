@@ -113,7 +113,10 @@ export function PreviewSection({
       </div>
 
       <div className="flex justify-center p-4 md:p-8 bg-muted/30 rounded-xl border border-border overflow-hidden">
-        <div ref={cardRef} className="transform transition-all duration-300">
+        <div
+          ref={cardRef}
+          className="transform transition-all duration-300 p-12"
+        >
           {renderTemplate()}
         </div>
       </div>

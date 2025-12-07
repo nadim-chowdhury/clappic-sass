@@ -12,6 +12,13 @@ export function DownloadActions({
   targetRef,
   fileName = "viral-card",
 }: DownloadActionsProps) {
+  const getTimestampedFilename = () => {
+    const now = new Date();
+    const date = now.toISOString().split("T")[0];
+    const time = now.toTimeString().split(" ")[0].replace(/:/g, "-");
+    return `${fileName}-${date}_${time}`;
+  };
+
   const handleDownload = async () => {
     if (!targetRef.current) return;
 
@@ -24,7 +31,7 @@ export function DownloadActions({
       });
 
       const link = document.createElement("a");
-      link.download = `${fileName}.png`;
+      link.download = `${getTimestampedFilename()}.png`;
       link.href = dataUrl;
       link.click();
 
@@ -47,7 +54,9 @@ export function DownloadActions({
 
       if (!blob) return;
 
-      const file = new File([blob], `${fileName}.png`, { type: "image/png" });
+      const file = new File([blob], `${getTimestampedFilename()}.png`, {
+        type: "image/png",
+      });
 
       if (navigator.share && navigator.canShare({ files: [file] })) {
         await navigator.share({

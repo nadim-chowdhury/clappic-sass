@@ -46,7 +46,7 @@ export function FacebookCard({
       {/* Header */}
       <div className="p-4 flex justify-between items-start">
         <div className="flex gap-3">
-          <Avatar className="w-10 h-10 border border-black/5">
+          <Avatar className="w-12 h-12 border border-black/5">
             <AvatarImage
               src={content.author?.avatar || "https://github.com/shadcn.png"}
             />
@@ -56,7 +56,7 @@ export function FacebookCard({
             <div className="flex items-center gap-1">
               <span
                 className={cn(
-                  "font-semibold text-[15px] hover:underline cursor-pointer",
+                  "font-semibold text-[18px] hover:underline cursor-pointer",
                   textColor
                 )}
               >
@@ -70,7 +70,7 @@ export function FacebookCard({
             </div>
             <div
               className={cn(
-                "flex items-center gap-1 text-[13px]",
+                "flex items-center gap-1 text-[14px]",
                 secondaryTextColor
               )}
             >
@@ -94,10 +94,10 @@ export function FacebookCard({
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 mt-1">
         <p
           className={cn(
-            "text-[15px] leading-normal whitespace-pre-wrap",
+            "text-[18px] leading-normal whitespace-pre-wrap",
             textColor
           )}
         >

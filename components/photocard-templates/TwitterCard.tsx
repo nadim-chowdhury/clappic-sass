@@ -81,7 +81,7 @@ export function TwitterCard({ content }: TwitterCardProps) {
         {content.comments.map((comment, i) => (
           <div
             key={i}
-            className="p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
+            className="p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors bg-accent/60 rounded-lg"
           >
             {/* Parent Comment */}
             <div className="flex gap-3">

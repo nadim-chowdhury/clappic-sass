@@ -1,12 +1,39 @@
 import { useRef } from "react";
-import { GeneratedContent } from "@/hooks/use-photocard";
 import { TwitterCard } from "@/components/photocard-templates/TwitterCard";
 import { MemeCard } from "@/components/photocard-templates/MemeCard";
 import { ChatCard } from "@/components/photocard-templates/ChatCard";
 import { MinimalCard } from "@/components/photocard-templates/MinimalCard";
 import { FacebookCard } from "@/components/photocard-templates/FacebookCard";
+import { GradientCard } from "@/components/photocard-templates/GradientCard";
 import { DownloadActions } from "./DownloadActions";
 import { TemplateSelector } from "./TemplateSelector";
+
+export interface Comment {
+  username: string;
+  handle: string;
+  text: string;
+  avatar?: string;
+  time?: string;
+  replies?: Comment[];
+}
+
+export interface GeneratedContent {
+  post: string;
+  author?: {
+    name: string;
+    handle: string;
+    avatar?: string;
+    verified?: boolean;
+  };
+  comments: Comment[];
+  likes?: string;
+  commentsCount?: string; // Renamed from 'comments' string field to avoid collision or confusion?
+  // diverse fields
+  shares?: string;
+  views?: string;
+  time?: string;
+  gradient?: string;
+}
 
 interface PreviewSectionProps {
   content: GeneratedContent | null;
@@ -42,6 +69,8 @@ export function PreviewSection({
         return <FacebookCard content={content} />;
       case "meme":
         return <MemeCard content={content} />;
+      case "gradient":
+        return <GradientCard content={content} />;
       case "chat":
         return <ChatCard content={content} />;
       case "minimal":

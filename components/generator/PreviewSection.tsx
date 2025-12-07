@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { TwitterCard } from "@/components/photocard-templates/TwitterCard";
 import { MemeCard } from "@/components/photocard-templates/MemeCard";
 import { ChatCard } from "@/components/photocard-templates/ChatCard";
@@ -7,6 +7,9 @@ import { FacebookCard } from "@/components/photocard-templates/FacebookCard";
 import { GradientCard } from "@/components/photocard-templates/GradientCard";
 import { DownloadActions } from "./DownloadActions";
 import { TemplateSelector } from "./TemplateSelector";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Moon, Sun } from "lucide-react";
 
 export interface Comment {
   username: string;
@@ -27,8 +30,7 @@ export interface GeneratedContent {
   };
   comments: Comment[];
   likes?: string;
-  commentsCount?: string; // Renamed from 'comments' string field to avoid collision or confusion?
-  // diverse fields
+  commentsCount?: string;
   shares?: string;
   views?: string;
   time?: string;
@@ -47,6 +49,7 @@ export function PreviewSection({
   setSelectedTemplate,
 }: PreviewSectionProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   if (!content) {
     return (
@@ -62,11 +65,14 @@ export function PreviewSection({
   }
 
   const renderTemplate = () => {
+    const props = { content, isDarkMode };
     switch (selectedTemplate) {
       case "twitter":
-        return <TwitterCard content={content} />;
+        // @ts-ignore
+        return <TwitterCard {...props} />;
       case "facebook":
-        return <FacebookCard content={content} />;
+        // @ts-ignore
+        return <FacebookCard {...props} />;
       case "meme":
         return <MemeCard content={content} />;
       case "gradient":
@@ -76,16 +82,35 @@ export function PreviewSection({
       case "minimal":
         return <MinimalCard content={content} />;
       default:
-        return <TwitterCard content={content} />;
+        // @ts-ignore
+        return <TwitterCard {...props} />;
     }
   };
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <TemplateSelector
-        selectedTemplate={selectedTemplate}
-        setSelectedTemplate={setSelectedTemplate}
-      />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <TemplateSelector
+          selectedTemplate={selectedTemplate}
+          setSelectedTemplate={setSelectedTemplate}
+        />
+
+        {(selectedTemplate === "twitter" ||
+          selectedTemplate === "facebook") && (
+          <div className="flex items-center gap-2 bg-background border border-border rounded-full px-3 py-1.5 shadow-sm">
+            <Sun className="w-4 h-4 text-muted-foreground" />
+            <Switch
+              id="dark-mode"
+              checked={isDarkMode}
+              onCheckedChange={setIsDarkMode}
+            />
+            <Moon className="w-4 h-4 text-muted-foreground" />
+            <Label htmlFor="dark-mode" className="sr-only">
+              Dark Mode
+            </Label>
+          </div>
+        )}
+      </div>
 
       <div className="flex justify-center p-4 md:p-8 bg-muted/30 rounded-xl border border-border overflow-hidden">
         <div ref={cardRef} className="transform transition-all duration-300">

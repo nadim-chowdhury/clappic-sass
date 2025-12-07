@@ -1,159 +1,302 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ThumbsUp, MessageCircle, Share2, Globe, Heart } from "lucide-react";
+import {
+  MessageCircle,
+  Share2,
+  ThumbsUp,
+  MoreHorizontal,
+  Globe,
+  Heart,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface FacebookCardProps {
   content: GeneratedContent;
+  isDarkMode?: boolean;
 }
 
-export function FacebookCard({ content }: FacebookCardProps) {
+export function FacebookCard({
+  content,
+  isDarkMode = false,
+}: FacebookCardProps) {
+  const bgColor = isDarkMode ? "bg-[#0f1117]" : "bg-white";
+  const textColor = isDarkMode ? "text-slate-50" : "text-[#050505]";
+  const secondaryTextColor = isDarkMode ? "text-slate-400" : "text-[#65676B]";
+  const borderColor = isDarkMode ? "border-slate-800" : "border-gray-200";
+  const hoverBg = isDarkMode ? "hover:bg-[#1e293b]" : "hover:bg-gray-100";
+  const commentBg = isDarkMode ? "bg-[#1e293b]" : "bg-[#F0F2F5]";
+  const ringColor = isDarkMode ? "ring-[#0f1117]" : "ring-white";
+
+  const verifiedIcon = (
+    <svg viewBox="0 0 24 24" className="w-3 h-3 text-white fill-current">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+    </svg>
+  );
+
   return (
-    <div className="bg-white text-black rounded-xl border border-gray-200 shadow-sm max-w-md w-full font-sans overflow-hidden p-1">
+    <div
+      className={cn(
+        "max-w-md w-full rounded-xl shadow-lg font-sans border transition-colors duration-300 p-1",
+        bgColor,
+        borderColor,
+        textColor
+      )}
+    >
       {/* Header */}
-      <div className="p-3 flex gap-2 items-start">
-        <Avatar className="w-10 h-10 border border-gray-100">
-          <AvatarImage
-            src={content.author?.avatar || "https://github.com/shadcn.png"}
-          />
-          <AvatarFallback>{content.author?.name?.[0] || "VC"}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1">
-          <div className="flex items-center gap-1">
-            <span className="font-bold text-[15px] leading-tight text-[#050505]">
-              {content.author?.name || "Viral Creator"}
-            </span>
-          </div>
-          <div className="flex items-center gap-1 text-xs text-gray-500">
-            <span>{content.time || "2h"}</span>
-            <span>·</span>
-            <Globe className="w-3 h-3" />
+      <div className="p-4 flex justify-between items-start">
+        <div className="flex gap-3">
+          <Avatar className="w-10 h-10 border border-black/5">
+            <AvatarImage
+              src={content.author?.avatar || "https://github.com/shadcn.png"}
+            />
+            <AvatarFallback>{content.author?.name?.[0] || "VC"}</AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="flex items-center gap-1">
+              <span
+                className={cn(
+                  "font-semibold text-[15px] hover:underline cursor-pointer",
+                  textColor
+                )}
+              >
+                {content.author?.name || "Viral Creator"}
+              </span>
+              {content.author?.verified !== false && (
+                <div className="bg-blue-500 rounded-full p-[2px] w-3.5 h-3.5 flex items-center justify-center">
+                  {verifiedIcon}
+                </div>
+              )}
+            </div>
+            <div
+              className={cn(
+                "flex items-center gap-1 text-[13px]",
+                secondaryTextColor
+              )}
+            >
+              <span className="hover:underline cursor-pointer">
+                {content.time || "2h"}
+              </span>
+              <span>·</span>
+              <Globe className="w-3 h-3" />
+            </div>
           </div>
         </div>
-        <div className="text-gray-500">
-          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
-            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-          </svg>
-        </div>
+        <button
+          className={cn(
+            "p-2 rounded-full transition-colors",
+            hoverBg,
+            secondaryTextColor
+          )}
+        >
+          <MoreHorizontal className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Content */}
-      <div className="px-3 pb-3">
-        <p className="text-[15px] leading-normal whitespace-pre-wrap text-[#050505]">
+      <div className="px-4 pb-4">
+        <p
+          className={cn(
+            "text-[15px] leading-normal whitespace-pre-wrap",
+            textColor
+          )}
+        >
           {content.post}
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="px-3 py-2 flex justify-between items-center text-gray-500 text-sm border-b border-gray-100">
-        <div className="flex items-center gap-1">
+      {/* Metrics Bar */}
+      <div className="px-4 py-2.5 flex justify-between items-center">
+        <div className="flex items-center gap-1.5 cursor-pointer hover:underline">
           <div className="flex -space-x-1">
-            <div className="bg-blue-500 rounded-full p-1 border-2 border-white z-20">
-              <ThumbsUp className="w-2.5 h-2.5 text-white fill-current" />
+            {/* Haha Emoji (Yellow) */}
+            <div
+              className={cn(
+                "w-[18px] h-[18px] rounded-full bg-[#f7b928] flex items-center justify-center ring-2 z-30",
+                ringColor
+              )}
+            >
+              😆
             </div>
-            <div className="bg-red-500 rounded-full p-1 border-2 border-white z-10">
+            {/* Heart Emoji (Red) */}
+            <div
+              className={cn(
+                "w-[18px] h-[18px] rounded-full bg-red-500 flex items-center justify-center ring-2 z-20",
+                ringColor
+              )}
+            >
               <Heart className="w-2.5 h-2.5 text-white fill-current" />
             </div>
-          </div>
-          <span className="ml-1 hover:underline cursor-pointer">
-            {content.likes || "2.4K"}
-          </span>
-        </div>
-        <div className="flex gap-3 text-gray-500">
-          <span className="hover:underline cursor-pointer">
-            {content.commentsCount || "542"} Comments
-          </span>
-          <span className="hover:underline cursor-pointer">
-            {content.shares || "128"} Shares
-          </span>
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex justify-between px-2 py-1">
-        <button className="flex-1 flex items-center justify-center gap-2 text-gray-600 font-medium text-[15px] hover:bg-gray-50 px-2 py-2 rounded-md transition-colors">
-          <ThumbsUp className="w-5 h-5" />
-          Like
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-2 text-gray-600 font-medium text-[15px] hover:bg-gray-50 px-2 py-2 rounded-md transition-colors">
-          <MessageCircle className="w-5 h-5" />
-          Comment
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-2 text-gray-600 font-medium text-[15px] hover:bg-gray-50 px-2 py-2 rounded-md transition-colors">
-          <Share2 className="w-5 h-5" />
-          Share
-        </button>
-      </div>
-
-      {/* Comments Preview */}
-      <div className="bg-gray-50/50 p-3 space-y-3 border-t border-gray-100">
-        <div className="text-sm font-medium text-gray-600 cursor-pointer hover:underline">
-          View more comments
-        </div>
-        {content.comments.map((comment, i) => (
-          <div key={i} className="flex gap-2 group">
-            <Avatar className="w-8 h-8 mt-0.5">
-              <AvatarImage src={comment.avatar} />
-              <AvatarFallback className="bg-gray-200 text-gray-600 text-xs font-bold">
-                {comment.username[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <div className="bg-gray-100 rounded-md px-3 py-2 inline-block">
-                <div className="font-bold text-[13px] text-[#050505] cursor-pointer hover:underline">
-                  {comment.username}
-                </div>
-                <div className="text-[15px] text-[#050505] leading-snug">
-                  {comment.text}
-                </div>
-              </div>
-              <div className="flex gap-3 mt-1 ml-1 text-xs font-bold text-gray-500">
-                <span className="cursor-pointer hover:underline">Like</span>
-                <span className="cursor-pointer hover:underline">Reply</span>
-                <span className="font-normal text-gray-400">
-                  {comment.time || "1h"}
-                </span>
-              </div>
-
-              {/* Nested Replies */}
-              {comment.replies && comment.replies.length > 0 && (
-                <div className="mt-2 space-y-2">
-                  {comment.replies.map((reply, j) => (
-                    <div key={j} className="flex gap-2">
-                      <Avatar className="w-6 h-6 mt-0.5">
-                        <AvatarImage src={reply.avatar} />
-                        <AvatarFallback className="bg-gray-200 text-gray-600 text-[10px] font-bold">
-                          {reply.username[0].toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1">
-                        <div className="bg-gray-100 rounded-md px-3 py-1.5 inline-block">
-                          <div className="font-bold text-[12px] text-[#050505] cursor-pointer hover:underline">
-                            {reply.username}
-                          </div>
-                          <div className="text-[14px] text-[#050505] leading-snug">
-                            {reply.text}
-                          </div>
-                        </div>
-                        <div className="flex gap-3 mt-1 ml-1 text-[11px] font-bold text-gray-500">
-                          <span className="cursor-pointer hover:underline">
-                            Like
-                          </span>
-                          <span className="cursor-pointer hover:underline">
-                            Reply
-                          </span>
-                          <span className="font-normal text-gray-400">
-                            {reply.time || "30m"}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Like Emoji (Blue) */}
+            <div
+              className={cn(
+                "w-[18px] h-[18px] rounded-full bg-blue-500 flex items-center justify-center ring-2 z-10",
+                ringColor
               )}
+            >
+              <ThumbsUp className="w-2.5 h-2.5 text-white fill-current" />
             </div>
           </div>
-        ))}
+          <span className={cn("text-[13px]", secondaryTextColor)}>
+            {content.likes || "1.2K"}
+          </span>
+        </div>
+        <div className={cn("flex gap-3 text-[13px]", secondaryTextColor)}>
+          <span className="hover:underline cursor-pointer">
+            {content.commentsCount || "420"} comments
+          </span>
+          <span className="hover:underline cursor-pointer">
+            {content.shares || "56"} shares
+          </span>
+        </div>
       </div>
+
+      {/* Action Buttons */}
+      <div className={cn("px-2 py-1 mx-4 border-t border-b mb-2", borderColor)}>
+        <div className="flex">
+          <button
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md transition-colors font-medium text-[15px]",
+              hoverBg,
+              secondaryTextColor
+            )}
+          >
+            <ThumbsUp className="w-5 h-5" />
+            <span>Like</span>
+          </button>
+          <button
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md transition-colors font-medium text-[15px]",
+              hoverBg,
+              secondaryTextColor
+            )}
+          >
+            <MessageCircle className="w-5 h-5" />
+            <span>Comment</span>
+          </button>
+          <button
+            className={cn(
+              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md transition-colors font-medium text-[15px]",
+              hoverBg,
+              secondaryTextColor
+            )}
+          >
+            <Share2 className="w-5 h-5" />
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Comments Section */}
+      {content.comments && content.comments.length > 0 && (
+        <div className="px-4 pb-4 space-y-4">
+          <div
+            className={cn(
+              "text-[15px] font-semibold cursor-pointer hover:underline",
+              secondaryTextColor
+            )}
+          >
+            Most relevant
+          </div>
+          {content.comments.map((comment, i) => (
+            <div key={i} className="flex gap-2">
+              <Avatar className="w-8 h-8 cursor-pointer">
+                <AvatarImage src={comment.avatar} />
+                <AvatarFallback>{comment.username[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                {/* Comment Bubble */}
+                <div className="inline-block">
+                  <div className={cn("rounded-2xl px-3 py-2", commentBg)}>
+                    <div
+                      className={cn(
+                        "font-semibold text-[13px] hover:underline cursor-pointer text-left",
+                        textColor
+                      )}
+                    >
+                      {comment.username}
+                    </div>
+                    <p
+                      className={cn("text-[15px] leading-[1.3333]", textColor)}
+                    >
+                      {comment.text}
+                    </p>
+                  </div>
+                  {/* Interaction Links */}
+                  <div
+                    className={cn(
+                      "flex items-center gap-4 mt-1 ml-3 text-[12px] font-bold",
+                      secondaryTextColor
+                    )}
+                  >
+                    <span className="cursor-pointer hover:underline">Like</span>
+                    <span className="cursor-pointer hover:underline">
+                      Reply
+                    </span>
+                    <span className="font-normal cursor-pointer hover:underline">
+                      {comment.time || "1h"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Nested Replies */}
+                {comment.replies && comment.replies.length > 0 && (
+                  <div className="mt-2 pl-2 space-y-2 border-l-2 border-transparent">
+                    {comment.replies.map((reply, j) => (
+                      <div key={j} className="flex gap-2">
+                        <Avatar className="w-6 h-6 mt-1 cursor-pointer">
+                          <AvatarImage src={reply.avatar} />
+                          <AvatarFallback>{reply.username[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <div className="inline-block">
+                            <div
+                              className={cn("rounded-2xl px-3 py-2", commentBg)}
+                            >
+                              <div
+                                className={cn(
+                                  "font-semibold text-[12px] hover:underline cursor-pointer text-left",
+                                  textColor
+                                )}
+                              >
+                                {reply.username}
+                              </div>
+                              <p
+                                className={cn(
+                                  "text-[14px] leading-[1.3333]",
+                                  textColor
+                                )}
+                              >
+                                {reply.text}
+                              </p>
+                            </div>
+                            <div
+                              className={cn(
+                                "flex items-center gap-4 mt-1 ml-3 text-[11px] font-bold",
+                                secondaryTextColor
+                              )}
+                            >
+                              <span className="cursor-pointer hover:underline">
+                                Like
+                              </span>
+                              <span className="cursor-pointer hover:underline">
+                                Reply
+                              </span>
+                              <span className="font-normal cursor-pointer hover:underline">
+                                {reply.time || "30m"}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

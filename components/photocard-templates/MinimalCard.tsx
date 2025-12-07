@@ -7,106 +7,129 @@ interface MinimalCardProps {
 
 export function MinimalCard({ content }: MinimalCardProps) {
   return (
-    <div className="bg-[#f9f7f1] text-[#2c2c2c] p-12 rounded-sm shadow-xl max-w-md w-full font-serif relative overflow-hidden">
-      {/* Paper Texture & Effects */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-80 pointer-events-none mix-blend-multiply" />
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4c5b0] to-transparent opacity-50" />
-
-      <div className="relative z-10 flex flex-col h-full min-h-[400px]">
-        {/* Header: Date & Simple Icon */}
-        <div className="flex justify-between items-start mb-12">
-          <div className="text-xs uppercase tracking-[0.2em] text-[#8a8a8a] font-sans">
-            {content.time || "Recently"}
+    <div className="bg-white text-black p-8 md:p-10 rounded-xl shadow-2xl max-w-md w-full font-sans flex flex-col relative overflow-hidden border border-gray-100">
+      <div className="flex-1 space-y-8">
+        {/* Header - Editorial Style */}
+        <div className="flex justify-between items-end border-b-2 border-black pb-4">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">
+              Topic
+            </span>
           </div>
-          <div className="w-8 h-8 opacity-20 transform rotate-12">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12,2A10,10 0 1,0 22,12,10.011,10.011 0 0,0 12,2Zm0,18a8,8 0 1,1 8-8A8.009,8.009 0 0,1 12,20Z" />
-            </svg>
-          </div>
+          <span className="text-xs font-mono text-gray-400 mb-1">
+            {content.time || "Now"}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="flex-1">
-          <p className="text-2xl md:text-3xl leading-relaxed font-medium text-[#1a1a1a]">
+        {/* POST CONTENT */}
+        <div className="space-y-6">
+          <p className="text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-black">
             {content.post}
           </p>
-        </div>
 
-        {/* Footer: Signature / Author */}
-        <div className="mt-12 pt-6 border-t border-[#d4c5b0] flex justify-between items-end">
           <div className="flex items-center gap-3">
-            {/* Author Avatar as 'Stamp' */}
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-[#d4c5b0] grayscale opacity-80">
-              <img
-                src={content.author?.avatar || "https://github.com/shadcn.png"}
-                alt="Author"
-                className="w-full h-full object-cover"
+            <Avatar className="w-10 h-10 ring-2 ring-black bg-gray-100">
+              <AvatarImage
+                src={content.author?.avatar}
+                className="object-cover"
               />
+              <AvatarFallback className="bg-black text-white font-bold">
+                {content.author?.name?.[0] || "A"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="font-bold text-sm leading-none">
+                {content.author?.name || "Author"}
+              </span>
+              <span className="text-xs text-gray-500 font-mono mt-0.5">
+                {content.author?.handle || "handle"}
+              </span>
             </div>
-            <div>
-              <p className="text-sm font-bold tracking-wide italic text-[#4a4a4a]">
-                — {content.author?.name || "Anonymous"}
-              </p>
-              {content.author?.handle && (
-                <p className="text-[10px] text-[#8a8a8a] mt-1 font-sans uppercase tracking-wider">
-                  @{content.author.handle}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="text-[10px] text-[#bebebe] font-sans tracking-widest uppercase">
-            {content.likes || "0"} reads
           </div>
         </div>
 
-        {/* Comments Section (Reflections) */}
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-3 border-y border-gray-100 py-4 gap-4">
+          <div className="flex flex-col items-center">
+            <span className="text-lg font-bold">{content.likes || "0"}</span>
+            <span className="text-[10px] uppercase tracking-wider text-gray-400">
+              Likes
+            </span>
+          </div>
+          <div className="flex flex-col items-center border-l border-gray-100 pl-4">
+            <span className="text-lg font-bold">
+              {content.commentsCount || "0"}
+            </span>
+            <span className="text-[10px] uppercase tracking-wider text-gray-400">
+              Replies
+            </span>
+          </div>
+          <div className="flex flex-col items-center border-l border-gray-100 pl-4">
+            <span className="text-lg font-bold">{content.shares || "0"}</span>
+            <span className="text-[10px] uppercase tracking-wider text-gray-400">
+              Shares
+            </span>
+          </div>
+        </div>
+
+        {/* DISCUSSION AREA */}
         {content.comments && content.comments.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-[#d4c5b0]/50">
-            <h4 className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-6 font-sans text-center">
-              Reflections
-            </h4>
+          <div className="pt-4 space-y-6">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-2 h-2 bg-black rounded-full animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-widest">
+                Live Discussion
+              </span>
+            </div>
+
             <div className="space-y-6">
               {content.comments.map((comment, i) => (
-                <div key={i} className="relative">
-                  <div className="flex items-start gap-3">
-                    <Avatar className="w-6 h-6 border border-[#d4c5b0] grayscale opacity-70">
+                <div key={i} className="group">
+                  <div className="flex gap-4">
+                    <Avatar className="w-8 h-8 rounded-none border border-black bg-gray-50 mt-1">
                       <AvatarImage src={comment.avatar} />
-                      <AvatarFallback className="bg-[#e6e2d6] text-[#666] text-[8px]">
-                        {comment.username[0].toUpperCase()}
+                      <AvatarFallback className="bg-black text-white font-bold rounded-none">
+                        {comment.username[0]}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-baseline mb-1">
-                        <span className="font-bold text-sm italic text-[#4a4a4a]">
+                    <div className="flex-1 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-sm tracking-tight">
                           {comment.username}
                         </span>
-                        <span className="text-[9px] text-[#a0a0a0] font-sans">
+                        <span className="text-[10px] text-gray-400 font-mono">
                           {comment.time}
                         </span>
                       </div>
-                      <p className="text-sm text-[#4a4a4a] leading-relaxed">
+                      <p className="text-sm text-gray-700 leading-relaxed font-medium">
                         {comment.text}
                       </p>
-
-                      {/* Nested Replies */}
-                      {comment.replies && comment.replies.length > 0 && (
-                        <div className="mt-3 ml-1 pl-4 border-l border-[#d4c5b0] space-y-3">
-                          {comment.replies.map((reply, j) => (
-                            <div key={j}>
-                              <div className="flex justify-between items-baseline mb-0.5">
-                                <span className="font-bold text-xs italic text-[#666]">
-                                  {reply.username}
-                                </span>
-                              </div>
-                              <p className="text-xs text-[#666] leading-relaxed">
-                                {reply.text}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
+
+                  {/* Nested Replies */}
+                  {comment.replies && comment.replies.length > 0 && (
+                    <div className="mt-4 ml-4 pl-4 border-l-2 border-gray-100 space-y-4">
+                      {comment.replies.map((reply, j) => (
+                        <div key={j} className="flex gap-3">
+                          <Avatar className="w-6 h-6 rounded-none border border-gray-200 bg-gray-50 mt-0.5">
+                            <AvatarImage src={reply.avatar} />
+                            <AvatarFallback className="bg-gray-200 text-black text-[9px] font-bold rounded-none">
+                              {reply.username[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <span className="font-bold text-xs mr-2">
+                              {reply.username}
+                            </span>
+                            <span className="text-xs text-gray-600">
+                              {reply.text}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

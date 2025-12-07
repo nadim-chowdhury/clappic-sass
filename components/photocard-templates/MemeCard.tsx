@@ -8,82 +8,89 @@ interface MemeCardProps {
 
 export function MemeCard({ content }: MemeCardProps) {
   return (
-    <div className="relative bg-[#0a0a0a] text-white min-h-[400px] max-w-md w-full font-sans flex flex-col border-8 border-white shadow-[10px_10px_0px_0px_rgba(255,255,255,0.2)]">
-      {/* Decorative corners */}
-      <div className="absolute top-0 left-0 w-8 h-8 border-r-4 border-b-4 border-white bg-[#0a0a0a] z-10" />
-      <div className="absolute top-0 right-0 w-8 h-8 border-l-4 border-b-4 border-white bg-[#0a0a0a] z-10" />
-      <div className="absolute bottom-0 left-0 w-8 h-8 border-r-4 border-t-4 border-white bg-[#0a0a0a] z-10" />
-      <div className="absolute bottom-0 right-0 w-8 h-8 border-l-4 border-t-4 border-white bg-[#0a0a0a] z-10" />
+    <div className="relative bg-black text-white min-h-[500px] max-w-md w-full font-heading flex flex-col overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+      {/* Background Gradient/Noise */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-black to-black opacity-80" />
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay" />
+
+      {/* Glowing Orb */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-violet-600/30 blur-[80px] rounded-full pointer-events-none" />
 
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center p-12 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
-        <div className="space-y-6 w-full">
-          <h2 className="text-xl md:text-2xl font-bold uppercase tracking-widest text-center text-white/60 mb-8 border-b-2 border-white/20 pb-4 mx-auto w-1/2">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center p-10 space-y-8 text-center">
+        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+          <span className="text-xs font-bold tracking-[0.3em] uppercase text-indigo-300">
             POV
-          </h2>
-          <p className="text-5xl md:text-6xl font-black text-center uppercase leading-[0.9] tracking-tighter break-words hyphens-auto">
-            {content.post}
-          </p>
+          </span>
         </div>
+        <p className="text-4xl md:text-5xl font-black uppercase tracking-tight leading-[0.9] drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] text-white text-balance">
+          {content.post}
+        </p>
       </div>
 
-      {/* Comments / Replies Section */}
+      {/* Comments Section */}
       {content.comments && content.comments.length > 0 && (
-        <div className="flex-1 bg-zinc-900 p-6 space-y-6">
-          <div className="font-action text-2xl text-yellow-400 tracking-wider">
-            COMMENTS ({content.commentsCount || "542"})
+        <div className="relative z-10 p-6 space-y-4">
+          {/* Header */}
+          <div className="flex items-center gap-2 text-white/40 mb-2">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[10px] uppercase tracking-widest font-bold">
+              Comments
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
           </div>
 
-          <div className="space-y-4">
-            {content.comments.map((comment, i) => (
-              <div
-                key={i}
-                className="border-2 border-white bg-black p-4 relative shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <Avatar className="w-8 h-8 rounded-none border border-white">
-                    <AvatarImage src={comment.avatar} />
-                    <AvatarFallback className="bg-blue-600 text-white font-bold rounded-none">
-                      {comment.username[0].toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="font-bold text-lg text-white font-action tracking-wide">
-                    {comment.username.toUpperCase()}
-                  </span>
+          {content.comments.map((comment, i) => (
+            <div key={i} className="space-y-3">
+              <div className="flex gap-3 items-start group">
+                <Avatar className="w-8 h-8 ring-2 ring-white/10 transition-all group-hover:ring-indigo-500/50">
+                  <AvatarImage src={comment.avatar} />
+                  <AvatarFallback className="bg-zinc-800 text-white font-bold">
+                    {comment.username[0]}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="font-bold text-sm text-white/90">
+                      {comment.username}
+                    </span>
+                    <span className="text-[10px] text-white/40">
+                      {comment.time}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-white/80 leading-snug">
+                    {comment.text}
+                  </p>
                 </div>
-                <p className="font-sans font-bold text-white text-lg leading-tight">
-                  {comment.text.toUpperCase()}
-                </p>
+              </div>
 
-                {/* Nested Replies */}
-                {comment.replies && comment.replies.length > 0 && (
-                  <div className="mt-4 space-y-3 pl-2">
-                    {comment.replies.map((reply, j) => (
-                      <div
-                        key={j}
-                        className="bg-zinc-900 border-l-4 border-yellow-400 p-3"
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <Avatar className="w-6 h-6 rounded-none border border-white/50">
-                            <AvatarImage src={reply.avatar} />
-                            <AvatarFallback className="bg-red-600 text-white text-xs font-bold rounded-none">
-                              {reply.username[0].toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
-                          <span className="font-bold text-sm text-yellow-400 font-action tracking-wide">
-                            {reply.username.toUpperCase()}
+              {/* Nested Replies */}
+              {comment.replies && comment.replies.length > 0 && (
+                <div className="pl-11 space-y-3">
+                  {comment.replies.map((reply, j) => (
+                    <div key={j} className="flex gap-3 items-start opacity-80">
+                      <Avatar className="w-6 h-6 ring-1 ring-white/10">
+                        <AvatarImage src={reply.avatar} />
+                        <AvatarFallback className="bg-zinc-800 text-[9px] text-white">
+                          {reply.username[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="font-bold text-xs text-white/90">
+                            {reply.username}
                           </span>
                         </div>
-                        <p className="font-sans font-bold text-white text-sm leading-tight">
-                          {reply.text.toUpperCase()}
+                        <p className="text-xs text-white/70 leading-snug">
+                          {reply.text}
                         </p>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </div>

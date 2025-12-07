@@ -21,7 +21,7 @@ export function GradientCard({ content }: GradientCardProps) {
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-20 mix-blend-overlay" />
 
       {/* Glassmorphism Container */}
-      <div className="relative z-10 h-full flex flex-col p-8 bg-white/10 backdrop-blur-md border border-white/20">
+      <div className="relative z-10 h-full flex flex-col p-8 border border-white/20">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Avatar className="w-12 h-12 border-2 border-white/50 shadow-lg">
@@ -35,10 +35,9 @@ export function GradientCard({ content }: GradientCardProps) {
               <span className="font-bold text-lg drop-shadow-md">
                 {content.author?.name || "Viral Creator"}
               </span>
-              <Sparkles className="w-4 h-4 text-yellow-300 fill-current drop-shadow-md" />
             </div>
             <span className="text-white/70 text-sm font-medium">
-              @{content.author?.handle || "viral_god"} · {content.time || "2h"}
+              {content.author?.handle || "viral_god"} · {content.time || "2h"}
             </span>
           </div>
         </div>

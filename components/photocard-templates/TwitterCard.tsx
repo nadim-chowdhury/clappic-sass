@@ -8,7 +8,7 @@ interface TwitterCardProps {
 
 export function TwitterCard({ content }: TwitterCardProps) {
   return (
-    <div className="bg-white text-black p-6 rounded-xl border border-gray-200 shadow-xl max-w-md w-full font-sans">
+    <div className="bg-white text-black p-6 pb-2 rounded-xl border border-gray-200 shadow-xl max-w-md w-full font-sans">
       {/* Main Post */}
       <div className="flex gap-3">
         <Avatar className="w-10 h-10 border border-gray-100">
@@ -81,7 +81,7 @@ export function TwitterCard({ content }: TwitterCardProps) {
         {content.comments.map((comment, i) => (
           <div
             key={i}
-            className="p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors bg-accent/60 rounded-lg"
+            className="p-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors rounded-lg"
           >
             {/* Parent Comment */}
             <div className="flex gap-3">

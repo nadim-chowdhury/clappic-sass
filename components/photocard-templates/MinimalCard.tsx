@@ -1,5 +1,6 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/generator/FormattedText";
 
 interface MinimalCardProps {
   content: GeneratedContent;
@@ -24,7 +25,7 @@ export function MinimalCard({ content }: MinimalCardProps) {
         {/* POST CONTENT */}
         <div className="space-y-6">
           <p className="text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-black">
-            {content.post}
+            <FormattedText text={content.post} />
           </p>
 
           <div className="flex items-center gap-3">
@@ -102,7 +103,7 @@ export function MinimalCard({ content }: MinimalCardProps) {
                         </span>
                       </div>
                       <p className="text-sm text-gray-700 leading-relaxed font-medium">
-                        {comment.text}
+                        <FormattedText text={comment.text} />
                       </p>
                     </div>
                   </div>
@@ -123,7 +124,7 @@ export function MinimalCard({ content }: MinimalCardProps) {
                               {reply.username}
                             </span>
                             <span className="text-xs text-gray-600">
-                              {reply.text}
+                              <FormattedText text={reply.text} />
                             </span>
                           </div>
                         </div>

@@ -1,5 +1,6 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/generator/FormattedText";
 import { Heart, MessageCircle, Repeat2, Share, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -79,7 +80,7 @@ export function TwitterCard({ content, isDarkMode = false }: TwitterCardProps) {
         <p
           className={cn("text-[23px] leading-8 whitespace-pre-wrap", textColor)}
         >
-          {content.post}
+          <FormattedText text={content.post} />
         </p>
       </div>
 
@@ -204,7 +205,7 @@ export function TwitterCard({ content, isDarkMode = false }: TwitterCardProps) {
                       textColor
                     )}
                   >
-                    {comment.text}
+                    <FormattedText text={comment.text} />
                   </p>
                 </div>
               </div>
@@ -238,7 +239,7 @@ export function TwitterCard({ content, isDarkMode = false }: TwitterCardProps) {
                           </span>
                         </div>
                         <p className={cn("text-sm mt-0.5", textColor)}>
-                          {reply.text}
+                          <FormattedText text={reply.text} />
                         </p>
                       </div>
                     </div>

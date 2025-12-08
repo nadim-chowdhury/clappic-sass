@@ -1,6 +1,7 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/generator/FormattedText";
 
 interface MemeCardProps {
   content: GeneratedContent;
@@ -59,7 +60,7 @@ export function MemeCard({ content }: MemeCardProps) {
                     </span>
                   </div>
                   <p className="text-sm font-medium text-white/80 leading-snug">
-                    {comment.text}
+                    <FormattedText text={comment.text} />
                   </p>
                 </div>
               </div>
@@ -82,7 +83,7 @@ export function MemeCard({ content }: MemeCardProps) {
                           </span>
                         </div>
                         <p className="text-xs text-white/70 leading-snug">
-                          {reply.text}
+                          <FormattedText text={reply.text} />
                         </p>
                       </div>
                     </div>

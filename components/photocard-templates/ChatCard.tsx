@@ -1,5 +1,6 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/generator/FormattedText";
 import { Phone, Video, Info, Heart, Send, ImageIcon } from "lucide-react";
 
 interface ChatCardProps {
@@ -42,7 +43,7 @@ export function ChatCard({ content }: ChatCardProps) {
         {/* Main Post (Sent by User - Gradient) */}
         <div className="flex flex-col items-end gap-1">
           <div className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white px-5 py-3 rounded-[22px] rounded-br-[4px] shadow-lg shadow-indigo-500/20 max-w-[85%] text-[16px] leading-[1.45] font-normal">
-            {content.post}
+            <FormattedText text={content.post} />
           </div>
           <span className="text-[10px] font-medium text-gray-300 mr-1">
             Sent
@@ -65,7 +66,7 @@ export function ChatCard({ content }: ChatCardProps) {
                   {comment.username}
                 </span>
                 <div className="bg-gray-100 text-gray-900 px-5 py-3 rounded-[22px] rounded-bl-[4px] text-[15px] leading-snug group-hover:bg-gray-200/80 transition-colors">
-                  {comment.text}
+                  <FormattedText text={comment.text} />
                 </div>
               </div>
             </div>
@@ -87,7 +88,7 @@ export function ChatCard({ content }: ChatCardProps) {
 
                     <div className="flex flex-col gap-1">
                       <div className="bg-white border border-gray-100 text-gray-800 px-4 py-2 rounded-[18px] text-sm leading-snug shadow-sm">
-                        {reply.text}
+                        <FormattedText text={reply.text} />
                       </div>
                     </div>
                   </div>

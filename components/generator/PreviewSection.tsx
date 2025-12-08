@@ -227,10 +227,7 @@ export function PreviewSection({
 
       {/* Main Visible Card */}
       <div className="flex justify-center p-4 md:p-8 bg-muted/30 rounded-xl border border-border overflow-hidden">
-        <div
-          ref={cardRef}
-          className="transform transition-all duration-300 p-12"
-        >
+        <div ref={cardRef} className="transform transition-all duration-300">
           {renderTemplate()}
         </div>
       </div>
@@ -239,7 +236,7 @@ export function PreviewSection({
       {selectedTemplate === "facebook" && (
         <div className="fixed left-[-9999px] top-0 pointer-events-none opacity-0">
           {Array.from({ length: totalPages }).map((_, i) => (
-            <div key={i} ref={multiPageRefs.current[i]} className="p-12">
+            <div key={i} ref={multiPageRefs.current[i]}>
               {renderTemplate(true, i)}
             </div>
           ))}

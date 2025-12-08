@@ -1,5 +1,6 @@
 import { GeneratedContent } from "@/components/generator/PreviewSection";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/generator/FormattedText";
 import { Heart, MessageCircle, Share2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +46,7 @@ export function GradientCard({ content }: GradientCardProps) {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center py-8">
           <p className="text-2xl md:text-3xl font-bold leading-tight text-center drop-shadow-lg break-words hyphens-auto">
-            "{content.post}"
+            <FormattedText text={content.post} />
           </p>
         </div>
 
@@ -72,7 +73,7 @@ export function GradientCard({ content }: GradientCardProps) {
                   </span>
                 </div>
                 <p className="text-sm text-white/80 leading-snug">
-                  {comment.text}
+                  <FormattedText text={comment.text} />
                 </p>
 
                 {/* Nested Replies */}
@@ -92,7 +93,7 @@ export function GradientCard({ content }: GradientCardProps) {
                           </span>
                         </div>
                         <p className="text-xs text-white/70 leading-snug">
-                          {reply.text}
+                          <FormattedText text={reply.text} />
                         </p>
                       </div>
                     ))}

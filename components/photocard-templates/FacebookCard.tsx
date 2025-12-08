@@ -299,7 +299,7 @@ export function FacebookCard({
                       comment.reactionIcons &&
                       comment.reactionIcons.length > 0 && (
                         <div
-                          className="absolute bottom-[-6px] right-[-6px] flex items-center bg-white rounded-full p-[2px] shadow-sm border border-gray-200"
+                          className="absolute bottom-[6px] right-[6px] flex items-center bg-white rounded-full p-[2px] shadow-sm border border-gray-200"
                           style={{ zIndex: 10 }}
                         >
                           <div className="flex -space-x-1 mr-1">
@@ -380,7 +380,7 @@ export function FacebookCard({
                                 reply.reactionIcons &&
                                 reply.reactionIcons.length > 0 && (
                                   <div
-                                    className="absolute bottom-[-6px] right-[-6px] flex items-center bg-white rounded-full p-[1px] shadow-sm border border-gray-200"
+                                    className="absolute bottom-[6px] right-[6px] flex items-center bg-white rounded-full p-[1px] shadow-sm border border-gray-200"
                                     style={{ zIndex: 10 }}
                                   >
                                     <div className="flex -space-x-1 mr-1">

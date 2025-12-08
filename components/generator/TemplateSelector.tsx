@@ -12,6 +12,8 @@ import {
 interface TemplateSelectorProps {
   selectedTemplate: string;
   setSelectedTemplate: (value: string) => void;
+  subTemplate?: string;
+  setSubTemplate?: (value: string) => void;
 }
 
 const templates = [
@@ -59,11 +61,42 @@ const templates = [
     color: "bg-gray-50 text-gray-900 border-gray-200",
     activeColor: "ring-gray-300",
   },
+  {
+    id: "post-only",
+    name: "Post Only",
+    icon: LayoutTemplate,
+    color: "bg-indigo-600 text-white border-indigo-500",
+    activeColor: "ring-indigo-400",
+    isNew: true,
+  },
+];
+
+const postOnlyTemplates = [
+  {
+    id: "bold",
+    name: "Bold",
+    description: "High impact",
+    color: "bg-yellow-400 text-black",
+  },
+  {
+    id: "modern",
+    name: "Modern",
+    description: "Clean & airy",
+    color: "bg-white text-black border border-gray-200",
+  },
+  {
+    id: "neon",
+    name: "Neon",
+    description: "Cyberpunk",
+    color: "bg-slate-900 text-cyan-400",
+  },
 ];
 
 export function TemplateSelector({
   selectedTemplate,
   setSelectedTemplate,
+  subTemplate,
+  setSubTemplate,
 }: TemplateSelectorProps) {
   return (
     <div className="space-y-4">
@@ -102,6 +135,33 @@ export function TemplateSelector({
           );
         })}
       </div>
+
+      {/* Sub-Selector for Post Only */}
+      {selectedTemplate === "post-only" && setSubTemplate && (
+        <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+          <Label className="text-sm font-semibold text-muted-foreground">
+            Select Style
+          </Label>
+          <div className="grid grid-cols-3 gap-3">
+            {postOnlyTemplates.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setSubTemplate(t.id)}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-2 p-3 rounded-lg border-2 transition-all",
+                  subTemplate === t.id
+                    ? "ring-2 ring-offset-2 ring-primary border-transparent"
+                    : "border-transparent hover:bg-muted",
+                  t.color
+                )}
+              >
+                <span className="font-bold text-sm">{t.name}</span>
+                <span className="text-[10px] opacity-80">{t.description}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -64,6 +64,31 @@ export function HomeContent() {
         return `${Math.floor(mins / 1440)}d`;
       };
 
+      // Helper for comment likes formatting
+      const formatCommentLike = (count: number) => {
+        if (count === 0) return "";
+        if (count >= 1000) return (count / 1000).toFixed(1) + "K";
+        return count.toString();
+      };
+
+      // Helper for random reaction icons
+      const getRandomReactions = (likeCount: number) => {
+        if (likeCount === 0) return [];
+        const icons = ["👍", "❤️", "😆", "😮", "😢", "😡"];
+        // 1 to 3 random icons
+        const numIcons = Math.floor(Math.random() * 3) + 1;
+        const selected: string[] = [];
+        for (let i = 0; i < numIcons; i++) {
+          const icon = icons[Math.floor(Math.random() * icons.length)];
+          if (!selected.includes(icon)) selected.push(icon);
+        }
+        // Always include Like or Heart for realism if not present
+        if (!selected.includes("👍") && !selected.includes("❤️")) {
+          selected[0] = Math.random() > 0.5 ? "👍" : "❤️";
+        }
+        return selected;
+      };
+
       // Post time: random between 10 mins and 7 days (10080 mins)
       const postAgeMins = Math.floor(Math.random() * 10000) + 10;
       const postTime = minutesToDisplay(postAgeMins);
@@ -92,6 +117,20 @@ export function HomeContent() {
           const newItem = {
             ...item,
             time: minutesToDisplay(itemAgeMins),
+            likes: formatCommentLike(
+              Math.floor(
+                Math.random() *
+                  (parentTimeMins > 1000 ? 500 : 50) *
+                  (Math.random() * 0.5)
+              )
+            ),
+            reactionIcons: getRandomReactions(
+              Math.floor(
+                Math.random() *
+                  (parentTimeMins > 1000 ? 500 : 50) *
+                  (Math.random() * 0.5)
+              )
+            ),
           };
           if (item.replies && Array.isArray(item.replies)) {
             newItem.replies = processComments(item.replies, itemAgeMins);

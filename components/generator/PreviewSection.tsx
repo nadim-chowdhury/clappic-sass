@@ -11,6 +11,9 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Moon, Sun, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PostBoldCard } from "@/components/photocard-templates/PostBoldCard";
+import { PostModernCard } from "@/components/photocard-templates/PostModernCard";
+import { PostNeonCard } from "@/components/photocard-templates/PostNeonCard";
 
 export interface Comment {
   username: string;
@@ -19,6 +22,8 @@ export interface Comment {
   avatar?: string;
   time?: string;
   replies?: Comment[];
+  likes?: string;
+  reactionIcons?: string[];
 }
 
 export interface GeneratedContent {
@@ -53,6 +58,7 @@ export function PreviewSection({
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [postOnlyTemplate, setPostOnlyTemplate] = useState("bold");
 
   // Reset page when content changes
   useEffect(() => {
@@ -158,6 +164,20 @@ export function PreviewSection({
         return <ChatCard content={content} />;
       case "minimal":
         return <MinimalCard content={content} />;
+      case "minimal":
+        return <MinimalCard content={content} />;
+      case "post-only":
+        // Filter out comments for post only mode
+        const postOnlyContent = { ...content, comments: [] };
+        switch (postOnlyTemplate) {
+          case "modern":
+            return <PostModernCard content={postOnlyContent} />;
+          case "neon":
+            return <PostNeonCard content={postOnlyContent} />;
+          case "bold":
+          default:
+            return <PostBoldCard content={postOnlyContent} />;
+        }
       default:
         // @ts-ignore
         return <TwitterCard {...props} />;
@@ -170,6 +190,8 @@ export function PreviewSection({
         <TemplateSelector
           selectedTemplate={selectedTemplate}
           setSelectedTemplate={setSelectedTemplate}
+          subTemplate={postOnlyTemplate}
+          setSubTemplate={setPostOnlyTemplate}
         />
 
         <div className="flex flex-wrap items-center gap-4">

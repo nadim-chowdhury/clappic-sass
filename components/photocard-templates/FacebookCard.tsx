@@ -275,7 +275,7 @@ export function FacebookCard({
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   {/* Comment Bubble */}
-                  <div className="inline-block max-w-full">
+                  <div className="inline-block max-w-full relative">
                     <div className={cn("rounded-2xl px-3 py-2", commentBg)}>
                       <div
                         className={cn(
@@ -294,6 +294,34 @@ export function FacebookCard({
                         <FormattedText text={comment.text} />
                       </p>
                     </div>
+                    {/* Reaction Bubble */}
+                    {comment.likes &&
+                      comment.reactionIcons &&
+                      comment.reactionIcons.length > 0 && (
+                        <div
+                          className="absolute bottom-[-6px] right-[-6px] flex items-center bg-white rounded-full p-[2px] shadow-sm border border-gray-200"
+                          style={{ zIndex: 10 }}
+                        >
+                          <div className="flex -space-x-1 mr-1">
+                            {comment.reactionIcons.map((icon, rIdx) => (
+                              <div
+                                key={rIdx}
+                                className="w-[14px] h-[14px] flex items-center justify-center text-[10px] rounded-full bg-slate-100 ring-1 ring-white"
+                              >
+                                {icon}
+                              </div>
+                            ))}
+                          </div>
+                          <span
+                            className={cn(
+                              "text-[11px] pr-1",
+                              secondaryTextColor
+                            )}
+                          >
+                            {comment.likes}
+                          </span>
+                        </div>
+                      )}
                     {/* Interaction Links */}
                     <div
                       className={cn(
@@ -323,7 +351,7 @@ export function FacebookCard({
                             <AvatarFallback>{reply.username[0]}</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
-                            <div className="inline-block max-w-full">
+                            <div className="inline-block max-w-full relative">
                               <div
                                 className={cn(
                                   "rounded-2xl px-3 py-2",
@@ -347,6 +375,34 @@ export function FacebookCard({
                                   <FormattedText text={reply.text} />
                                 </p>
                               </div>
+                              {/* Reaction Bubble for Reply */}
+                              {reply.likes &&
+                                reply.reactionIcons &&
+                                reply.reactionIcons.length > 0 && (
+                                  <div
+                                    className="absolute bottom-[-6px] right-[-6px] flex items-center bg-white rounded-full p-[1px] shadow-sm border border-gray-200"
+                                    style={{ zIndex: 10 }}
+                                  >
+                                    <div className="flex -space-x-1 mr-1">
+                                      {reply.reactionIcons.map((icon, rIdx) => (
+                                        <div
+                                          key={rIdx}
+                                          className="w-[12px] h-[12px] flex items-center justify-center text-[9px] rounded-full bg-slate-100 ring-1 ring-white"
+                                        >
+                                          {icon}
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <span
+                                      className={cn(
+                                        "text-[10px] pr-1",
+                                        secondaryTextColor
+                                      )}
+                                    >
+                                      {reply.likes}
+                                    </span>
+                                  </div>
+                                )}
                               <div
                                 className={cn(
                                   "flex items-center gap-4 mt-1 ml-3 text-[11px] font-bold",

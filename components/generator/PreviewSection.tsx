@@ -12,36 +12,15 @@ import { Label } from "@/components/ui/label";
 import { Moon, Sun, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PostBoldCard } from "@/components/photocard-templates/PostBoldCard";
-import { PostModernCard } from "@/components/photocard-templates/PostModernCard";
-import { PostNeonCard } from "@/components/photocard-templates/PostNeonCard";
+import { PostElegantCard } from "@/components/photocard-templates/PostElegantCard";
+import { PostVibrantCard } from "@/components/photocard-templates/PostVibrantCard";
+import { PostRawCard } from "@/components/photocard-templates/PostRawCard";
+import { PostRetroCard } from "@/components/photocard-templates/PostRetroCard";
+import { PostGlitchCard } from "@/components/photocard-templates/PostGlitchCard";
 
-export interface Comment {
-  username: string;
-  handle: string;
-  text: string;
-  avatar?: string;
-  time?: string;
-  replies?: Comment[];
-  likes?: string;
-  reactionIcons?: string[];
-}
-
-export interface GeneratedContent {
-  post: string;
-  author?: {
-    name: string;
-    handle: string;
-    avatar?: string;
-    verified?: boolean;
-  };
-  comments: Comment[];
-  likes?: string;
-  commentsCount?: string;
-  shares?: string;
-  views?: string;
-  time?: string;
-  gradient?: string;
-}
+import { Comment, GeneratedContent } from "./types";
+import { PostModernCard } from "../photocard-templates/PostModernCard";
+import { PostNeonCard } from "../photocard-templates/PostNeonCard";
 
 interface PreviewSectionProps {
   content: GeneratedContent | null;
@@ -164,8 +143,7 @@ export function PreviewSection({
         return <ChatCard content={content} />;
       case "minimal":
         return <MinimalCard content={content} />;
-      case "minimal":
-        return <MinimalCard content={content} />;
+
       case "post-only":
         // Filter out comments for post only mode
         const postOnlyContent = { ...content, comments: [] };
@@ -174,6 +152,16 @@ export function PreviewSection({
             return <PostModernCard content={postOnlyContent} />;
           case "neon":
             return <PostNeonCard content={postOnlyContent} />;
+          case "elegant":
+            return <PostElegantCard content={postOnlyContent} />;
+          case "vibrant":
+            return <PostVibrantCard content={postOnlyContent} />;
+          case "raw":
+            return <PostRawCard content={postOnlyContent} />;
+          case "retro":
+            return <PostRetroCard content={postOnlyContent} />;
+          case "glitch":
+            return <PostGlitchCard content={postOnlyContent} />;
           case "bold":
           default:
             return <PostBoldCard content={postOnlyContent} />;

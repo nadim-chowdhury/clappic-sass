@@ -1,4 +1,4 @@
-import { GeneratedContent } from "@/components/generator/PreviewSection";
+import { GeneratedContent } from "@/components/generator/types";
 import { FormattedText } from "@/components/generator/FormattedText";
 
 interface PostNeonCardProps {

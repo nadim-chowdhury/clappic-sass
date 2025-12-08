@@ -90,6 +90,39 @@ const postOnlyTemplates = [
     description: "Cyberpunk",
     color: "bg-slate-900 text-cyan-400",
   },
+  {
+    id: "elegant",
+    name: "Elegant",
+    description: "Serif & Gold",
+    color: "bg-[#FDFBF7] text-slate-800 border-stone-200",
+  },
+  {
+    id: "vibrant",
+    name: "Vibrant",
+    description: "Gradient",
+    color:
+      "bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 text-white",
+  },
+  {
+    id: "raw",
+    name: "Raw",
+    description: "Brutalist",
+    color: "bg-stone-200 text-stone-800 border-2 border-stone-800",
+  },
+  {
+    id: "retro",
+    name: "Retro",
+    description: "Vaporwave",
+    color: "bg-[#2b0f54] text-[#ff00ff] border-[#00ffff]",
+    isNew: true,
+  },
+  {
+    id: "glitch",
+    name: "Glitch",
+    description: "Cyberpunk",
+    color: "bg-neutral-950 text-green-500 border-red-500",
+    isNew: true,
+  },
 ];
 
 export function TemplateSelector({
@@ -157,6 +190,13 @@ export function TemplateSelector({
               >
                 <span className="font-bold text-sm">{t.name}</span>
                 <span className="text-[10px] opacity-80">{t.description}</span>
+                {/* @ts-ignore */}
+                {t.isNew && (
+                  <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                  </span>
+                )}
               </button>
             ))}
           </div>

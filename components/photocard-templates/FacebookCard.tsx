@@ -1,7 +1,4 @@
-import {
-  GeneratedContent,
-  Comment,
-} from "@/components/generator/PreviewSection";
+import { GeneratedContent, Comment } from "@/components/generator/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FormattedText } from "@/components/generator/FormattedText";
 import {

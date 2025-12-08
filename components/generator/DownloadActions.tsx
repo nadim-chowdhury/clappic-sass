@@ -6,41 +6,70 @@ import { useState } from "react";
 
 interface DownloadActionsProps {
   targetRef: React.RefObject<HTMLDivElement | null>;
+  // Optional array of refs for multi-page batch download
+  multiPageRefs?: React.MutableRefObject<HTMLDivElement | null>[];
   fileName?: string;
 }
 
 export function DownloadActions({
   targetRef,
+  multiPageRefs,
   fileName = "viral-card",
 }: DownloadActionsProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
 
-  const getTimestampedFilename = () => {
+  const getTimestampedFilename = (index?: number) => {
     const now = new Date();
     const date = now.toISOString().split("T")[0];
     const time = now.toTimeString().split(" ")[0].replace(/:/g, "-");
-    return `${fileName}-${date}_${time}`;
+    const suffix = index !== undefined ? `-page-${index}` : "";
+    return `${fileName}${suffix}-${date}_${time}`;
+  };
+
+  const downloadSingleRef = async (element: HTMLElement, filename: string) => {
+    const dataUrl = await toPng(element, {
+      cacheBust: true,
+      pixelRatio: 2,
+      backgroundColor: "transparent",
+    });
+
+    const link = document.createElement("a");
+    link.download = `${filename}.png`;
+    link.href = dataUrl;
+    link.click();
   };
 
   const handleDownload = async () => {
-    if (!targetRef.current) return;
     setIsDownloading(true);
 
     try {
-      // Using html-to-image which supports modern CSS (lab/oklch) better
-      const dataUrl = await toPng(targetRef.current, {
-        cacheBust: true,
-        pixelRatio: 2,
-        backgroundColor: "transparent",
-      });
+      if (multiPageRefs && multiPageRefs.length > 0) {
+        // Batch download mode
+        let downloadedCount = 0;
 
-      const link = document.createElement("a");
-      link.download = `${getTimestampedFilename()}.png`;
-      link.href = dataUrl;
-      link.click();
+        for (let i = 0; i < multiPageRefs.length; i++) {
+          const ref = multiPageRefs[i];
+          if (ref.current) {
+            await downloadSingleRef(ref.current, getTimestampedFilename(i));
+            downloadedCount++;
+            // Small delay to prevent browser throttling downloads
+            if (i < multiPageRefs.length - 1) {
+              await new Promise((resolve) => setTimeout(resolve, 500));
+            }
+          }
+        }
 
-      toast.success("Image downloaded successfully!");
+        if (downloadedCount > 0) {
+          toast.success(`Downloaded ${downloadedCount} images successfully!`);
+        } else {
+          throw new Error("No pages found to download");
+        }
+      } else if (targetRef.current) {
+        // Single download mode
+        await downloadSingleRef(targetRef.current, getTimestampedFilename());
+        toast.success("Image downloaded successfully!");
+      }
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download image.");

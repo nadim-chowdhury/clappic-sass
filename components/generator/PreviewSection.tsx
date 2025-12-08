@@ -50,10 +50,6 @@ export function PreviewSection({
   setSelectedTemplate,
 }: PreviewSectionProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  // Refs for batch downloading all pages
-  const multiPageRefs = useRef<React.MutableRefObject<HTMLDivElement | null>[]>(
-    []
-  );
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -106,15 +102,14 @@ export function PreviewSection({
   // Total pages = Main Post (Page 0) + Comment Pages
   const totalPages = 1 + facebookPages.length;
 
-  // Initialize refs for all pages
-  useEffect(() => {
+  // Refs for batch downloading all pages
+  const multiPageRefs = useMemo(() => {
     if (selectedTemplate === "facebook") {
-      multiPageRefs.current = Array(totalPages)
+      return Array(totalPages)
         .fill(null)
-        .map((_, i) => multiPageRefs.current[i] || createRef());
-    } else {
-      multiPageRefs.current = [];
+        .map(() => createRef<HTMLDivElement>());
     }
+    return [];
   }, [totalPages, selectedTemplate]);
 
   if (!content) {
@@ -236,7 +231,7 @@ export function PreviewSection({
       {selectedTemplate === "facebook" && (
         <div className="fixed left-[-9999px] top-0 pointer-events-none opacity-0">
           {Array.from({ length: totalPages }).map((_, i) => (
-            <div key={i} ref={multiPageRefs.current[i]}>
+            <div key={i} ref={multiPageRefs[i]}>
               {renderTemplate(true, i)}
             </div>
           ))}
@@ -246,7 +241,7 @@ export function PreviewSection({
       <DownloadActions
         targetRef={cardRef}
         multiPageRefs={
-          selectedTemplate === "facebook" ? multiPageRefs.current : undefined
+          selectedTemplate === "facebook" ? multiPageRefs : undefined
         }
         fileName={`viral-${selectedTemplate}-page-${currentPage}`}
       />

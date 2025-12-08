@@ -78,7 +78,7 @@ export function TwitterCard({ content, isDarkMode = false }: TwitterCardProps) {
       {/* Content */}
       <div className="mb-4">
         <p
-          className={cn("text-[23px] leading-8 whitespace-pre-wrap", textColor)}
+          className={cn("text-[20px] leading-8 whitespace-pre-wrap", textColor)}
         >
           <FormattedText text={content.post} />
         </p>
